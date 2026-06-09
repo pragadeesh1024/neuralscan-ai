@@ -1,26 +1,38 @@
-NEURALSCAN AI
-🧠 Excited to share my latest project — Brain Tumor Detection using Deep Learning!
+# 🧠 Brain Tumor Detection
 
-I built a CNN model that classifies brain tumor types from MRI scans across 44 categories.
+A deep learning web application that classifies brain tumor types from MRI images using a Convolutional Neural Network (CNN).
 
-🔍 What it does:
-Upload an MRI image → Instantly detects if a tumor is present → Identifies the exact tumor type
+## 🔗 Live Demo
+[brain-tumor-detection-self-eight.vercel.app](https://brain-tumor-detection-self-eight.vercel.app)
 
-🛠️ Tech Stack:
-• TensorFlow / Keras — Model training
-• Gradio — Web interface
-• Google Colab — Training environment
-• Hugging Face Spaces + Vercel — Deployment
+## 📌 About
+This project uses a CNN model trained on 44 classes of brain MRI scans to detect and classify tumor types. Upload an MRI image and the model predicts whether a tumor is present and identifies the type.
 
-📊 Model Highlights:
-• 44 tumor classes (T1, T1C+, T2 scan types)
-• CNN with BatchNormalization & Dropout
-• Trained with Adam optimizer
+## 🏷️ Tumor Classes
+The model can classify 44 types including:
+- Glioblastoma, Astrocitoma, Meningioma, Ganglioglioma
+- Schwannoma, Ependimoma, Meduloblastoma, Neurocitoma
+- Oligodendroglioma, Germinoma, Carcinoma, Papiloma
+- Granuloma, Tuberculoma and more
+- Normal brain scans (T1, T2)
 
-🔗 Try it live: https://brain-tumor-detection-self-eight.vercel.app
+## 🛠️ Tech Stack
+- **Model**: TensorFlow / Keras CNN
+- **Frontend**: Gradio
+- **Deployment**: Hugging Face Spaces + Vercel
+- **Training**: Google Colab
 
-This project gave me hands-on experience in medical image classification, model deployment, and building real-world AI applications.
+## 📊 Model Architecture
+- 3 Convolutional layers with BatchNormalization
+- MaxPooling + Dropout for regularization
+- Dense layers with Softmax output (44 classes)
+- Trained with Adam optimizer
 
-Always excited to apply AI for healthcare solutions! 🚀
+## 🚀 How to Use
+1. Open the app
+2. Upload a brain MRI image
+3. Click **Predict**
+4. Get instant result — Tumor Detected or No Tumor Detected
 
-#DeepLearning #MachineLearning #CNN #MedicalAI #TensorFlow #Python #AIForHealthcare #ComputerVision #HuggingFace #StudentProject
+## 📁 Dataset
+Brain tumor MRI dataset with 44 classified categories (T1, T1C+, T2 scan types).
