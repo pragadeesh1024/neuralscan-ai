@@ -1,3 +1,4 @@
+NEURALSCAN AI
 🧠 Excited to share my latest project — Brain Tumor Detection using Deep Learning!
 
 I built a CNN model that classifies brain tumor types from MRI scans across 44 categories.
