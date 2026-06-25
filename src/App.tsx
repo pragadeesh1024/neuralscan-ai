@@ -8,7 +8,7 @@ import { StatsDashboard } from './components/StatsDashboard';
 import { GlossarySection } from './components/GlossarySection';
 import { GradioService } from './services/GradioService';
 import type { PredictionResult } from './services/GradioService';
-import { Sparkles, Activity, Info } from 'lucide-react';
+import { Sparkles, Activity, Info, AlertTriangle } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>('portal');
@@ -21,7 +21,7 @@ export default function App() {
   const [selectedImageName, setSelectedImageName] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [predictionResult, setPredictionResult] = useState<PredictionResult | null>(null);
-
+  const [predictionError, setPredictionError] = useState<string | null>(null);
 
   // History states
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -62,7 +62,8 @@ export default function App() {
   const handleImageSelected = (blob: Blob, previewUrl: string, name: string) => {
     setSelectedImagePreview(previewUrl);
     setSelectedImageName(name);
-    setPredictionResult(null); // Clear previous results
+    setPredictionResult(null);
+    setPredictionError(null);
     
     // Automatically trigger scanning when image is selected!
     triggerPrediction(blob, previewUrl, name);
@@ -114,6 +115,8 @@ export default function App() {
       localStorage.setItem('neuralscan_history', JSON.stringify(updatedHistory));
       
     } catch (err) {
+      const msg = err instanceof Error ? err.message : "Prediction failed";
+      setPredictionError(msg);
       console.error("Prediction error:", err);
     } finally {
       setIsScanning(false);
@@ -125,6 +128,7 @@ export default function App() {
     setSelectedImagePreview(null);
     setSelectedImageName(null);
     setPredictionResult(null);
+    setPredictionError(null);
     setIsScanning(false);
   };
 
@@ -225,6 +229,21 @@ export default function App() {
                     result={predictionResult || { hasTumor: false, type: '', confidence: 0, rawText: '', timestamp: '' }} 
                     isScanning={isScanning}
                   />
+                ) : predictionError ? (
+                  <div className="glass-card" style={{ padding: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '350px', gap: '1rem', borderColor: 'hsl(var(--danger) / 0.3)' }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'hsl(var(--danger) / 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'hsl(var(--danger))' }}>
+                      <AlertTriangle size={20} />
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: '1.15rem', marginBottom: '0.35rem', color: 'hsl(var(--danger))' }}>API Error</h3>
+                      <p style={{ fontSize: '0.85rem', color: 'hsl(var(--text-muted))', maxWidth: '350px', margin: '0 auto' }}>
+                        {predictionError}
+                      </p>
+                    </div>
+                    <button className="btn btn-secondary" onClick={() => { setPredictionError(null); setApiMode('demo'); }} style={{ fontSize: '0.8rem', padding: '0.4rem 1rem' }}>
+                      Switch to Demo Mode
+                    </button>
+                  </div>
                 ) : (
                   <div className="glass-card" style={{ padding: '4rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '350px', gap: '1rem' }}>
                     <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'hsl(var(--border-color) / 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'hsl(var(--text-muted))' }}>

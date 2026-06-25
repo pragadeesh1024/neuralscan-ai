@@ -1,4 +1,4 @@
-import { Client } from "@gradio/client";
+import { Client, handle_file } from "@gradio/client";
 
 export interface PredictionResult {
   hasTumor: boolean;
@@ -52,7 +52,7 @@ export class GradioService {
       await this.connect();
       
       const predictPromise = this.client.predict("/predict_tumor", {
-        img: imageBlob,
+        img: handle_file(imageBlob),
       });
 
       const timeoutPromise = new Promise((_, reject) => 
